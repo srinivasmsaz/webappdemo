@@ -1,0 +1,396 @@
+Build Overview:   
+
+ 
+
+What is Build: Developers write code and push their  into a repository (e.g Github, Azure DevOps), 
+
+It’s a CI/CD Pipeline like for ex: Azure DevOps, Github actions, Jenkins , triggers the build process. 
+
+The code is compiling, dependencies are resolved , unit tests run. 
+
+(or) 
+
+Build: Build refers to thr process of converting source code into an executable format by compilng, linking and packaging it. (Or ) compile and test code. 
+
+ 
+
+Package: Refers to bundling application files, dependencies and configurations into a deployable format such as, ZIP, JAR, Docker image. (or) Bundle the code. 
+
+PVT: PVT stands for (Production Verification Testing) is the process of verifying that a deployed application works correctly in the production environment before full release. (or) Validate in production –like environment. 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+So with in build, we have multiple types of builds. 
+
+Our Win 10 tier 1 team focuses mainly on dev builds. 
+
+Those are builds where we're kind of the first line of defense for things that are going to move into the production builds, the builds that are actually going to be used for shipping these updates. 
+
+So we really need to be on our game to make sure that if there's a problem, that we're able to identify that problem and get that problem resolved. 
+
+So that if we have a payload break, a dev break in one of our builds, we want to make sure that that gets fixed and resolved before it has a chance to get into the production build pipeline. 
+
+The same is true for down level build. We have dev builds there as well. 
+
+But in the down level space, we're also responsible for those production builds. 
+
+Those are, as I said, the ones that are going to be used for the production packaging and things that are going to be shipped out to our customers outside of Microsoft, the general public. 
+
+Once we get done with build, everything is kind of starts with build, right? 
+
+So once a build is complete, then it goes off to the packaging and the packaging team takes it over. 
+
+They package up all these binaries and then it gets shipped off to PVT and PVT has to basically for PVT. 
+
+Because it's actually package verification test. 
+
+Then is responsible for making sure that that package installs correctly and uninstalls correctly on the various OSS that are supported. 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+So going on to down level build, there are, you'll notice there are much fewer builds on down level build that have to be monitored. 
+
+But here again, we can see the builds that they have, your production builds, our escrow builds for both win win 10 and win win a down level build. 
+
+One of the things that you'll notice in this Power BI is it does give us the Icms that are active against that build or inactive whichever and there should be maybe this one doesn't do it Yeah, see it's some of these are updated to show what tier one has done with these icms. 
+
+It will also show you who the ICM is currently assigned to, whether it is downloadable build or if it is Windows CFE, a dev team, if it's gone, if it's been escalated to one of the one of the infrastructure teams that we're dependent on So we show you the dev builds, the end market builds. These are generally the production builds that are used for Oobs. 
+
+Then we have our BLD builds, which are similar to the bug fix builds.This is where a lot of testing goes on in those branches and then we have additional test builds. 
+
+These two bill are these two branches are used specifically for MTP testing. So for their monthly test passes, they use these two branches. 
+
+It also will tell you within here, if your builds are within SLAI think you'd get green, we might see where we may have some that are near SLA or out of SLA. So this based on where we are within with our SLA, this will tell us what kind of actions we need to do. 
+
+So many times if we're near SLA, we start parallel built so that we won't run out of, you know, SLA. 
+
+If we're out of SLA, depending on the branch that is being affected, that may cause us to increase our the severity of Icms that are out to the payload team. 
+
+If it is a storage problem, if we're unable to release our, our chunks, if we're unable to release build to our release points, maybe a release and we would reach out to the team that is responsible for those release servers and we would send our ICM to them. 
+
+The ICM, and this is something that we'll go through more in depth, is updated with all of the steps that we've taken in our  investigation, what we've tried to do to recover the build. And any and all information and logs are going to be attached to that ICM so that when the team receives these Icms, they don't have to redo our work. 
+
+They're able to see, oh, OK, so it's this server, this is what's happening. And then they will check on that release server, they'll update the ICM and we work with them so that we know OK, well now they've been able to get that that release there back up and now we can go forward with trying to recover our build. 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Get Green Daily Build Status: 
+
+ 
+
+C:\Users\mounika.mothe\AppData\Local\Microsoft\Windows\INetCache\Content.MSO\7DF2362D.tmp 
+
+ 
+
+ 
+
+So here is an example of the the get Green report. 
+
+Remember i said that we use a couple of different power BIS as our monitoring tools. 
+
+So this is for 10 plus status. So, these are the builds that are being covered by Tier 1. 
+
+So we've got GE hot patch, we've got the current, the, excuse me, not our current release, which right now we're in 3B. 
+
+This is what we're going to ship next. So, those and the way that this report is presented is by the importance, not really the importance of the bill, but where we want tier one to focus first. 
+
+So first we want to do the upcoming B releases, then we have D releases that are upcoming, then we have beta flight, then we go on to our current and future releases. And these are 4, you can see two, we still run 2B branches. 
+
+You'll see this under the old build because we have to have those past the for the past update that we sent out. 
+
+So for the past release, the last one that we released, we still want to run those builds because we have to have them in preparation for an out of band mezzo and OOP. So, we do have a page that has that. 
+
+Then we have what are called our bug fix and staging branches. We don't see many staging, but we do have bug fix branches. 
+
+Bug fix branches are where doves check in and test out new things for the branch. And this we do see a lot of dev failures. 
+
+The majority of our dev failures hit these bug fix branches because it's that it's basically it hasn't gone through Prime, it hasn't gone through anything. They're just testing things out at that point. 
+
+These branches are all our CFESB. 
+
+These are branches that developers use. And primarily there's I think 1 dev that's primarily in charge of this branch. 
+
+And we don't actually, we don't ship out of this. we don't ship out of any of these branches, but these are really under the control of the of the dev team specifically for upcoming new, what's the word that I want to use features that are are coming in and security work. 
+
+Then we have our previous B releases, which I was telling you about. We still run these. We don't run them daily, but we do run them. 
+
+And then our BXL builds, we're just starting this work and it is not so far we're only running a couple of of builds that they're using to test out  BXL on. 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Downlevel Build Status: 
+
+ 
+
+C:\Users\mounika.mothe\AppData\Local\Microsoft\Windows\INetCache\Content.MSO\3A2E74D2.tmp 
+
+ 
+
+ 
+
+Build Lab: 
+
+ 
+
+          So in here I could choose say win blue and find the branch oops, the branch that's broken. 
+
+So in this case, let's say wind blue LGSB and then I can search for any check insurance that were done to win blue. 
+
+So here I can see we had build, I can see that we integrated from escrow to win Blue and into these depots, the base depot, DS and Root. 
+
+So if I currently had a failure that happened in base, then I may want to go take a look at the check insurance that were made from this RI into win blue. And one of the things that you'll notice is that it does show you the author here. 
+
+So this you can see our eyes are done every night, well, every afternoon from escrow into the dev branches and that happens through automation Tier 1 doesn't have to do anything with it, but in order to track this type of thing down, if you think that it something came in from this, then you would have to go to the branch that it arried from, which is escrow.So then you would go into LGSB escrow. 
+
+And unfortunately, what you're seeing here, this all happened from branch rotation.So this isn't quite as helpful, but you, yeah, this all happened from branch rotation. 
+
+It's going to be harder for me to give you a, a good example, but it will give you say, you know, we were looking for base. 
+
+So we go to base and then it gives us the name of the person that did a check in.It will also give a description of what they were checking in. So, that helps as well. 
+
+ 
+
+ 
+
+C:\Users\mounika.mothe\AppData\Local\Microsoft\Windows\INetCache\Content.MSO\EE1D2F24.tmp 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Build Schedule: 
+
+----------------------------------------------------------------------------- 
+
+Branch Selection 
+
+Selected Branch: vistasp2_ldrv 
+
+There is an option to clone a branch but none is selected. 
+
+Job Engine & Provisioning 
+
+The job engine is BuildXL, which controls the build process. 
+
+Provisioned on: Colo-CO1 Vista 
+
+Email & Notification Settings 
+
+Build Alias: wsdcht-bld 
+
+Build CC List: wdgbuild 
+
+Scheduler Notification: wsdcht-bld 
+
+BVT (Build Verification Test) List: wsdcht-bld 
+
+Schedule Details 
+
+Schedule Note: colo-CO1_Vista_TEST_Sunday only Buil 
+
+Indicates the build runs only on Sundays. 
+
+Start Criteria 
+
+Checked Conditions: 
+
+If not in progress, the build can be scheduled. 
+
+Branch must be budgeted and have necessary approvals. 
+
+No RI scheduled into the branch (RI = Rolling Integration). 
+
+The previous build must not be running. 
+
+The previous build must not be marked as important (indicating it is not in triage). 
+
+All machines must be available. 
+
+Parent build must be scheduled and the branch must have F1 branches. 
+
+Unchecked Conditions: 
+
+Cancel previous builds is not checked, meaning old builds won’t be auto-canceled. 
+
+Priority Start Policy 
+
+"Use RI Priority Start Policy" is enabled. 
+
+Available Actions 
+
+Save Schedule 
+
+Disable Schedule 
+
+Delete Schedule 
+
+ 
+
+C:\Users\mounika.mothe\AppData\Local\Microsoft\Windows\INetCache\Content.MSO\154F55C3.tmp 
+ 
+
+Build Status: 
+
+ 
+
+The dashboard provides information on various builds categorized by Architecture/Flavor. 
+
+Each build entry includes details such as:  
+
+Status: Whether the build is successful (P - Passed), failed, or in progress (Re - Retrying). 
+
+Stage: The stage in which the build is currently in (e.g., PB, PC). 
+
+Logs (Infra): Infrastructure-related logs for troubleshooting. 
+
+Logs (Failure): Number of failure logs for the build. 
+
+Build Repair Tool: Tool available for fixing the build (BRT is shown). 
+
+Machine Name: The build machine where the build process is running. 
+
+Cloud Link: Link to access cloud build details. 
+
+Restart Option: Allows restarting the build if needed. 
+
+ 
+
+C:\Users\mounika.mothe\AppData\Local\Microsoft\Windows\INetCache\Content.MSO\DBF317C9.tmp 
+
+ 
+
+Build Logs: 
+
+ 
+
+The logs indicate that a full development build for x86 architecture was executed. 
+
+Cloud build logs and disk space management logs are available. 
+
+The presence of event logs and monitoring logs suggests active tracking of build status and errors. 
+
+The XML file might contain detailed build configuration or test results. 
+
+ 
+
+C:\Users\mounika.mothe\AppData\Local\Microsoft\Windows\INetCache\Content.MSO\D31855BF.tmp 
+
+ 
+
+Time Build Chunk Reporting : 
+
+ 
+
+Build versions follow a structured pattern, where:  
+
+7601 refers to Windows 7 SP1 build version. 
+
+The number after win7sp1_ldr_escrow represents the date (YYMMDD format) and build timestamp. 
+
+Chunks indicate distributed build components, ensuring parallel processing. 
+
+SSCWIN7BLD is the responsible team for these builds. 
+
+All builds are marked as "Official", meaning they are part of an approved Windows update process. 
+
+ 
+
+C:\Users\mounika.mothe\AppData\Local\Microsoft\Windows\INetCache\Content.MSO\4C2A525.tmp 
+ 
+ 
+ 
